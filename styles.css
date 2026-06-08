@@ -261,6 +261,7 @@ footer a {
 .next-steps,
 .contact-strip,
 .idea-large,
+.template-card,
 .preview-page {
   border: 1px solid var(--line);
   border-radius: 28px;
@@ -363,7 +364,7 @@ footer a {
 
 .make-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 16px;
 }
 
@@ -399,8 +400,58 @@ footer a {
   background: #fff0bd;
 }
 
+.make-card:nth-child(5) .make-icon {
+  background: #f4e5ff;
+}
+
 .make-card p {
   margin-bottom: 0;
+}
+
+.idea-template-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin: 20px 0 30px;
+}
+
+.template-card {
+  display: grid;
+  gap: 16px;
+  padding: 16px;
+}
+
+.sample-placeholder {
+  display: grid;
+  min-height: 142px;
+  place-items: center;
+  gap: 8px;
+  padding: 18px;
+  border: 1px dashed var(--pink-line);
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 22% 20%, rgba(255, 214, 229, 0.75), transparent 28%),
+    linear-gradient(180deg, #fffdf9, #fff5ee);
+  text-align: center;
+}
+
+.sample-placeholder span {
+  color: var(--pink-dark);
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.sample-placeholder strong {
+  color: var(--text);
+}
+
+.template-card h2 {
+  font-size: 24px;
+}
+
+.template-card p {
+  min-height: 50px;
 }
 
 .idea-large {
@@ -531,7 +582,7 @@ input[type="color"] {
   min-height: 56px;
 }
 
-.payment-note {
+.request-note {
   margin: 0;
   font-size: 14px;
 }
@@ -595,6 +646,7 @@ footer p {
   .route-grid,
   .contact-strip,
   .idea-large,
+  .idea-template-grid,
   .preview-page {
     grid-template-columns: 1fr;
   }
@@ -617,6 +669,10 @@ footer p {
   }
 
   .make-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .idea-template-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -649,6 +705,58 @@ footer p {
 
   .make-grid {
     grid-template-columns: 1fr;
+  }
+
+  .make-card {
+    display: grid;
+    grid-template-columns: 42px 1fr;
+    gap: 12px;
+    align-items: center;
+    padding: 14px;
+  }
+
+  .make-icon {
+    margin-bottom: 0;
+  }
+
+  .make-card p,
+  .template-card p {
+    display: none;
+  }
+
+  .idea-template-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .template-card {
+    grid-template-columns: 94px 1fr;
+    gap: 14px;
+    align-items: center;
+    padding: 12px;
+  }
+
+  .sample-placeholder {
+    min-height: 88px;
+    padding: 10px;
+    border-radius: 16px;
+  }
+
+  .sample-placeholder span {
+    display: none;
+  }
+
+  .sample-placeholder strong {
+    font-size: 13px;
+  }
+
+  .template-card h2 {
+    font-size: 20px;
+  }
+
+  .template-card .button {
+    min-height: 40px;
+    padding-inline: 16px;
   }
 
   .route-card {
