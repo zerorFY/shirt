@@ -367,6 +367,7 @@ footer a {
 }
 
 .make-section,
+.addon-section,
 .sample-section {
   padding: 16px 0 12px;
 }
@@ -415,6 +416,57 @@ footer a {
 
 .make-card p {
   margin-bottom: 0;
+}
+
+.addon-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin: 20px 0 30px;
+}
+
+.addon-card {
+  display: grid;
+  grid-template-columns: 74px 1fr;
+  gap: 18px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: rgba(255, 253, 249, 0.96);
+  box-shadow: var(--shadow);
+}
+
+.addon-mark {
+  display: grid;
+  width: 64px;
+  height: 64px;
+  place-items: center;
+  border-radius: 22px;
+  background: var(--pink-soft);
+  color: var(--pink-dark);
+  font-family: "Comic Sans MS", "Trebuchet MS", ui-sans-serif, system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.addon-card:nth-child(2) .addon-mark {
+  background: #dceaf7;
+}
+
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0 18px;
+}
+
+.tag-row span {
+  padding: 7px 11px;
+  border-radius: 999px;
+  background: #fff4f8;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 900;
 }
 
 .idea-template-grid {
@@ -663,6 +715,7 @@ footer p {
   .first-project,
   .route-grid,
   .contact-strip,
+  .addon-grid,
   .idea-large,
   .idea-template-grid,
   .preview-page {
@@ -723,6 +776,24 @@ footer p {
 
   .make-grid {
     grid-template-columns: 1fr;
+  }
+
+  .addon-card {
+    grid-template-columns: 52px 1fr;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .addon-mark {
+    width: 48px;
+    height: 48px;
+    border-radius: 16px;
+    font-size: 16px;
+  }
+
+  .addon-card p + p,
+  .tag-row {
+    display: none;
   }
 
   .make-card {
