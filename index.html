@@ -3,158 +3,111 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>T-shirt | Custom T-shirt Studio</title>
+    <title>Freya's Family Creations</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <header class="topbar">
-      <a class="brand" href="#studio" aria-label="T-shirt home">
-        <span class="brand-mark">T</span>
-        <span>T-shirt</span>
-      </a>
+      <a class="brand" href="index.html"><span></span>Freya's Family Creations<span></span></a>
       <nav class="nav" aria-label="Main navigation">
-        <a href="#gallery">Styles</a>
-        <a href="#studio">Customize</a>
+        <a href="#first-project">First Project</a>
+        <a href="ideas.html">Ideas</a>
+        <a href="preview.html">Preview</a>
         <a href="#contact">Contact</a>
       </nav>
+      <a class="button primary small" href="mailto:hello@zeror.ca?subject=Custom%20Gift%20Idea">Send an Idea</a>
     </header>
 
     <main>
-      <section class="hero compact-hero" id="studio">
+      <section class="home-hero">
         <div class="hero-copy">
-          <p class="eyebrow">Custom print studio</p>
-          <h1>T-shirt</h1>
-          <p>
-            Choose a print, preview it on a shirt, or upload your own artwork.
-          </p>
-          <div class="hero-actions">
-            <a class="button primary" href="#customizer">Start Customizing</a>
-            <a class="button ghost" href="#gallery">View Prints</a>
+          <p class="eyebrow">Family-made custom gifts</p>
+          <h1>More Creations<br />from Freya's Family</h1>
+          <p class="lead">Custom T-shirts, cards, and small gifts made for birthdays, class memories, family moments, and special days.</p>
+          <div class="pill-row">
+            <span>Made with love</span>
+            <span>Toronto / GTA</span>
           </div>
+          <div class="action-row">
+            <a class="button primary" href="#first-project">See the First Project</a>
+            <a class="button secondary" href="ideas.html">Browse Gift Ideas</a>
+          </div>
+          <p class="quiet-contact">Have an idea? <a href="mailto:hello@zeror.ca">hello@zeror.ca</a></p>
         </div>
-        <div class="hero-stage" aria-label="Featured custom T-shirt mockup">
-          <div class="shirt-poster">
-            <div class="shirt-css poster-shirt">
-              <div class="poster-print">YOUR<br />ART</div>
-            </div>
-          </div>
+        <div class="hero-product" aria-label="Featured Grade 2 Memories T-shirt">
+          <img src="assets/ui-slices/preview-shirt.png" alt="Grade 2 Memories T-shirt preview" />
         </div>
       </section>
 
-      <section class="section" id="gallery">
-        <div class="section-heading">
-          <p class="eyebrow">Print library</p>
-          <h2>Choose one of your existing prints.</h2>
+      <section class="first-project" id="first-project">
+        <div class="story-copy">
+          <p class="eyebrow">The first project</p>
+          <h2>Grade 2 Memories started it.</h2>
+          <div class="divider"><span></span></div>
+          <p>It started with a birthday and class memory T-shirt, a little gift for friends, teachers, and a school year full of memories.</p>
+          <p>From one small idea to something everyone can keep.</p>
+          <div class="pill-row small">
+            <span>Birthday gift</span>
+            <span>Class memory</span>
+            <span>Made for friends & teachers</span>
+          </div>
         </div>
-        <div class="design-grid" id="designGrid" aria-label="Available T-shirt print designs"></div>
+        <img class="project-card" src="assets/ui-slices/first-project-card.png" alt="Grade 2 Memories project card" />
       </section>
 
-      <section class="customizer" id="customizer">
-        <div class="preview-panel">
-          <div class="mockup-toolbar" aria-label="Preview controls">
-            <button class="icon-button" id="fitPrint" type="button" title="Fit artwork">Fit</button>
-            <button class="icon-button" id="centerPrint" type="button" title="Center artwork">Center</button>
-            <button class="icon-button" id="resetPrint" type="button" title="Reset artwork">Reset</button>
-          </div>
-          <div class="mockup" id="mockup">
-            <div class="shirt-css" id="shirt">
-              <div class="print-zone" id="printZone">
-                <div class="print-art empty" id="printArt">
-                  <span>Upload artwork</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <p class="drag-hint">Drag the artwork on the shirt. Use the controls to resize or rotate.</p>
+      <section class="next-steps" aria-labelledby="next-title">
+        <div class="section-intro centered">
+          <p class="eyebrow">Choose one next step</p>
+          <h2 id="next-title">What would you like to do?</h2>
+          <p>Keep it simple: look at examples, try a preview, or send a rough idea.</p>
         </div>
-
-        <aside class="order-panel">
-          <div class="panel-heading">
-            <p class="eyebrow">Design request</p>
-            <h2>Build your preview</h2>
-          </div>
-
-          <form id="requestForm">
-            <label class="field">
-              <span>Artwork file</span>
-              <input id="artUpload" type="file" accept="image/png,image/jpeg,image/webp" />
-            </label>
-
-            <div class="quality" id="qualityBox">
-              <strong>Artwork check</strong>
-              <p>Upload PNG, JPG, or WEBP. For a 10 inch print, 3000px wide is ideal.</p>
+        <div class="route-grid">
+          <a class="route-card" href="ideas.html">
+            <img src="assets/ui-slices/sample-class.png" alt="" />
+            <div>
+              <h3>View Gift Ideas</h3>
+              <p>Birthday shirts, class memories, thank-you cards, and family matching ideas.</p>
             </div>
-
-            <div class="control-group">
-              <span class="label-text">T-shirt color</span>
-              <div class="swatches" role="radiogroup" aria-label="T-shirt color">
-                <button class="swatch white active" type="button" data-color="#f6f2ea" aria-label="Natural white"></button>
-                <button class="swatch black" type="button" data-color="#171717" aria-label="Black"></button>
-                <button class="swatch blue" type="button" data-color="#9ab7c9" aria-label="Powder blue"></button>
-                <button class="swatch green" type="button" data-color="#536b56" aria-label="Forest green"></button>
-                <button class="swatch pink" type="button" data-color="#d8a5a7" aria-label="Dusty pink"></button>
-              </div>
+          </a>
+          <a class="route-card" href="preview.html">
+            <img src="assets/ui-slices/preview-shirt.png" alt="" />
+            <div>
+              <h3>Try T-Shirt Preview</h3>
+              <p>Upload artwork or choose a sample to see a quick rough preview.</p>
             </div>
-
-            <label class="field range-field">
-              <span>Print size</span>
-              <input id="scaleRange" type="range" min="35" max="180" value="100" />
-            </label>
-
-            <label class="field range-field">
-              <span>Rotation</span>
-              <input id="rotateRange" type="range" min="-45" max="45" value="0" />
-            </label>
-
-            <div class="split">
-              <label class="field">
-                <span>Size</span>
-                <select id="shirtSize">
-                  <option>S</option>
-                  <option selected>M</option>
-                  <option>L</option>
-                  <option>XL</option>
-                  <option>2XL</option>
-                </select>
-              </label>
-              <label class="field">
-                <span>Quantity</span>
-                <input id="quantity" type="number" min="1" value="1" />
-              </label>
+          </a>
+          <a class="route-card" href="mailto:hello@zeror.ca?subject=Custom%20Gift%20Idea">
+            <img src="assets/ui-slices/contact-envelope.png" alt="" />
+            <div>
+              <h3>Send an Idea</h3>
+              <p>No finished design needed. A photo, name, date, or rough thought is enough.</p>
             </div>
-
-            <label class="field">
-              <span>Email</span>
-              <input id="email" type="email" placeholder="name@example.com" />
-            </label>
-
-            <label class="field">
-              <span>Telegram</span>
-              <input id="telegram" type="text" placeholder="@username" />
-            </label>
-
-            <label class="field">
-              <span>Notes</span>
-              <textarea id="notes" rows="4" placeholder="Tell us print placement, deadline, or anything important."></textarea>
-            </label>
-
-            <div class="submit-row">
-              <button class="button primary" type="submit">Prepare Request</button>
-              <a class="button telegram" id="telegramLink" href="https://t.me/" target="_blank" rel="noreferrer">Telegram</a>
-            </div>
-          </form>
-        </aside>
+          </a>
+        </div>
       </section>
 
-      <section class="contact-band" id="contact">
+      <section class="contact-strip" id="contact">
         <div>
-          <p class="eyebrow">No payment checkout</p>
-          <h2>Send the design request, then confirm price and production details with us.</h2>
+          <p class="eyebrow">Contact</p>
+          <h2>Have an idea?</h2>
+          <p>You can send a photo, drawing, name list, theme, or event date. We can help turn it into a printable design.</p>
         </div>
-        <a class="button primary" href="mailto:hello@t-shirt.example">hello@t-shirt.example</a>
+        <a class="button primary" href="mailto:hello@zeror.ca?subject=Custom%20Gift%20Idea">Send an Idea</a>
+        <div class="email-block">
+          <span>Email:</span>
+          <a href="mailto:hello@zeror.ca">hello@zeror.ca</a>
+          <p>No need to have a finished design.</p>
+        </div>
       </section>
     </main>
 
-    <script src="app.js"></script>
+    <footer>
+      <div>
+        <b>Freya's Family Creations</b>
+        <p>Custom T-shirts, cards, and small gifts in Toronto / GTA</p>
+        <a href="mailto:hello@zeror.ca">hello@zeror.ca</a>
+      </div>
+      <p>Made with love · Family project · Toronto / GTA</p>
+    </footer>
   </body>
 </html>

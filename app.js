@@ -1,273 +1,168 @@
 const upload = document.querySelector("#artUpload");
-const printArt = document.querySelector("#printArt");
-const printZone = document.querySelector("#printZone");
+const previewImage = document.querySelector("#previewImage");
+const previewWindow = document.querySelector("#previewWindow");
 const qualityBox = document.querySelector("#qualityBox");
 const scaleRange = document.querySelector("#scaleRange");
 const rotateRange = document.querySelector("#rotateRange");
-const shirt = document.querySelector("#shirt");
-const swatches = document.querySelectorAll(".swatch");
+const shirtColor = document.querySelector("#shirtColor");
 const form = document.querySelector("#requestForm");
-const designGrid = document.querySelector("#designGrid");
+const samplePicker = document.querySelector("#samplePicker");
 
-const designFiles = [
-  "1.jpg",
-  "1_坐标参考.jpg",
-  "2.jpg",
-  "ChatGPT Image 2026年3月23日 17_35_09.png",
-  "ChatGPT Image 2026年3月23日 21_28_58.png",
-  "ChatGPT Image 2026年3月23日 21_37_56.png",
-  "ChatGPT Image 2026年3月23日 21_40_53.png",
-  "ChatGPT Image 2026年3月23日 21_47_26.png",
-  "ChatGPT Image 2026年3月23日 21_59_37.png",
-  "family logo loong.png",
-  "monster_ai_600dpi.png",
-  "monster_by_lora_letter_300dpi.png",
-  "six_seven_gemini_cropped_letter_300dpi.png",
-  "the_answer_is_42_letter_300dpi.png",
-  "位置.png",
-  "手写.jpeg",
-  "手绘 final.png",
-  "手绘 final_手写文字AI版_raw.png",
-  "手绘_final_坐标参考.jpg",
-  "手绘融合_坐姿热压版.png",
-  "手绘融合_坐姿热压版_瘦20_A4_300DPI.png",
-  "手绘融合_备选版.png",
-  "手绘融合_搞怪版.png",
-  "签名 final.png",
-  "签名圆形白底热压_A4_300DPI.png",
-  "签名异形白底热压_A4_300DPI.png",
-  "签名异形白底热压_A4_300DPI_preview.jpg",
-  "签名排版_A4_300DPI.png",
-  "签名排版_A4_300DPI_compact.png",
-  "签名排版_A4_300DPI_compact_preview.jpg",
-  "签名排版_A4_300DPI_preview.jpg",
-  "签名排版_A4_300DPI_round_preview.jpg",
-  "签名排版_A4_300DPI_v2.png",
-  "签名排版_A4_300DPI_v2_preview.jpg",
-  "签名裁切校正_v2_debug.jpg",
-];
+if (form && previewImage && previewWindow) {
+  const samples = [
+    {
+      key: "birthday",
+      title: "Birthday 2026 Shirt",
+      image: "assets/ui-slices/sample-birthday.png",
+      preview: "assets/ui-slices/sample-birthday.png",
+    },
+    {
+      key: "class",
+      title: "Class Memories Shirt",
+      image: "assets/ui-slices/sample-class.png",
+      preview: "assets/ui-slices/preview-shirt.png",
+    },
+    {
+      key: "teacher",
+      title: "Teacher Thank You Card",
+      image: "assets/ui-slices/sample-teacher.png",
+      preview: "assets/ui-slices/sample-teacher.png",
+    },
+    {
+      key: "family",
+      title: "Family Matching Shirt",
+      image: "assets/ui-slices/sample-family.png",
+      preview: "assets/ui-slices/sample-family.png",
+    },
+  ];
 
-const state = {
-  x: 0,
-  y: 0,
-  scale: 1,
-  rotate: 0,
-  dragging: false,
-  startX: 0,
-  startY: 0,
-  originX: 0,
-  originY: 0,
-  fileName: "",
-  imageWidth: 0,
-  imageHeight: 0,
-};
-
-function renderArtTransform() {
-  printArt.style.left = `calc(50% + ${state.x}px)`;
-  printArt.style.top = `calc(50% + ${state.y}px)`;
-  printArt.style.setProperty("--art-scale", state.scale);
-  printArt.style.setProperty("--art-rotate", `${state.rotate}deg`);
-}
-
-function resetPlacement() {
-  state.x = 0;
-  state.y = 0;
-  state.scale = 1;
-  state.rotate = 0;
-  scaleRange.value = 100;
-  rotateRange.value = 0;
-  renderArtTransform();
-}
-
-function fitArtwork() {
-  const zone = printZone.getBoundingClientRect();
-  const art = printArt.getBoundingClientRect();
-  const fitScale = Math.min(zone.width / art.width, zone.height / art.height, 1.35);
-  state.scale = Number.isFinite(fitScale) ? Math.max(0.35, fitScale) : 1;
-  scaleRange.value = Math.round(state.scale * 100);
-  renderArtTransform();
-}
-
-function updateQuality(file, image) {
-  const width = image.naturalWidth;
-  const height = image.naturalHeight;
-  const shortest = Math.min(width, height);
-  const sizeMb = file?.size ? file.size / 1024 / 1024 : null;
-  const estimatedDpi = Math.round(width / 10);
-
-  state.imageWidth = width;
-  state.imageHeight = height;
-  state.fileName = file?.name || image.dataset.fileName || "";
-
-  qualityBox.classList.remove("good", "warn", "bad");
-
-  let status = file ? "Artwork check" : "Selected print";
-  let message = `${width} x ${height}px`;
-  if (sizeMb) message += `, ${sizeMb.toFixed(1)} MB`;
-  message += `. Estimated ${estimatedDpi} DPI for a 10 inch wide print.`;
-
-  if (width >= 3000 && height >= 3000) {
-    qualityBox.classList.add("good");
-    status = "Artwork check: print ready";
-  } else if (shortest >= 1500) {
-    qualityBox.classList.add("warn");
-    status = "Artwork check: usable, but not ideal";
-    message += " A larger file will print sharper.";
-  } else {
-    qualityBox.classList.add("bad");
-    status = "Artwork check: low resolution";
-    message += " Ask the customer for a larger original before production.";
-  }
-
-  if (file?.type === "image/png" || state.fileName.toLowerCase().endsWith(".png")) {
-    message += " PNG is a good choice for logos or transparent art.";
-  }
-
-  qualityBox.innerHTML = `<strong>${status}</strong><p>${message}</p>`;
-}
-
-function designPath(fileName) {
-  return `assets/designs/${encodeURIComponent(fileName)}`;
-}
-
-function setArtworkImage(src, fileName, file = null) {
-  const image = new Image();
-  image.onload = () => {
-    printArt.classList.remove("empty");
-    printArt.innerHTML = "";
-    image.dataset.fileName = fileName;
-    printArt.appendChild(image);
-    resetPlacement();
-    updateQuality(file, image);
+  const state = {
+    fileName: "Class Memories Shirt",
+    imageWidth: 0,
+    imageHeight: 0,
   };
-  image.src = src;
-}
 
-function renderDesignGrid() {
-  if (!designGrid) return;
+  function updatePreviewTransform() {
+    previewWindow.style.setProperty("--preview-scale", Number(scaleRange.value) / 100);
+    previewWindow.style.setProperty("--preview-rotate", `${Number(rotateRange.value)}deg`);
+  }
 
-  designFiles.forEach((fileName, index) => {
-    const button = document.createElement("button");
-    const src = designPath(fileName);
-    const label = fileName.replace(/\.[^.]+$/, "");
+  function updateQuality(file, image) {
+    state.fileName = file?.name || state.fileName;
+    state.imageWidth = image?.naturalWidth || 0;
+    state.imageHeight = image?.naturalHeight || 0;
 
-    button.className = "design-card";
-    button.type = "button";
-    button.innerHTML = `
-      <span class="mini-shirt">
-        <span class="mini-shirt-body"></span>
-        <img src="${src}" alt="">
-      </span>
-      <strong>${label}</strong>
-    `;
-    button.addEventListener("click", () => {
-      document.querySelectorAll(".design-card").forEach((card) => card.classList.remove("active"));
-      button.classList.add("active");
-      setArtworkImage(src, fileName);
-      document.querySelector("#customizer").scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-    designGrid.appendChild(button);
-
-    if (index === 0) {
-      button.classList.add("active");
-      setArtworkImage(src, fileName);
+    if (!file || !image) {
+      qualityBox.className = "quality";
+      qualityBox.innerHTML = "<strong>Selected sample</strong><p>This is a sample preview. Final artwork can be adjusted before making it.</p>";
+      return;
     }
+
+    const width = image.naturalWidth;
+    const height = image.naturalHeight;
+    const shortest = Math.min(width, height);
+    const estimatedDpi = Math.round(width / 10);
+    const sizeMb = file.size / 1024 / 1024;
+
+    qualityBox.className = "quality";
+    let status = "Artwork check: low resolution";
+    if (width >= 3000 && height >= 3000) {
+      qualityBox.classList.add("good");
+      status = "Artwork check: print ready";
+    } else if (shortest >= 1400) {
+      qualityBox.classList.add("warn");
+      status = "Artwork check: usable";
+    } else {
+      qualityBox.classList.add("bad");
+    }
+
+    qualityBox.innerHTML = `<strong>${status}</strong><p>${width} x ${height}px, ${sizeMb.toFixed(1)} MB. Estimated ${estimatedDpi} DPI for a 10 inch wide print.</p>`;
+  }
+
+  function selectSample(sample, button) {
+    document.querySelectorAll("[data-sample]").forEach((item) => item.classList.remove("active"));
+    if (button) button.classList.add("active");
+    state.fileName = sample.title;
+    previewImage.src = sample.preview;
+    previewImage.alt = sample.title;
+    scaleRange.value = 100;
+    rotateRange.value = 0;
+    updatePreviewTransform();
+    updateQuality(null, null);
+  }
+
+  function renderSamplePicker() {
+    const querySample = new URLSearchParams(window.location.search).get("sample") || "class";
+    let initialButton = null;
+    let initialSample = samples.find((sample) => sample.key === querySample) || samples[1];
+
+    samples.forEach((sample) => {
+      const picker = document.createElement("button");
+      picker.type = "button";
+      picker.dataset.sample = sample.key;
+      picker.innerHTML = `<img src="${sample.image}" alt="${sample.title}">`;
+      picker.addEventListener("click", () => selectSample(sample, picker));
+      samplePicker.appendChild(picker);
+
+      if (sample.key === initialSample.key) {
+        initialButton = picker;
+      }
+    });
+
+    selectSample(initialSample, initialButton);
+  }
+
+  upload.addEventListener("change", (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const image = new Image();
+    image.onload = () => updateQuality(file, image);
+    const url = URL.createObjectURL(file);
+    image.src = url;
+    previewImage.src = url;
+    previewImage.alt = file.name;
+    document.querySelectorAll("[data-sample]").forEach((item) => item.classList.remove("active"));
   });
+
+  scaleRange.addEventListener("input", updatePreviewTransform);
+  rotateRange.addEventListener("input", updatePreviewTransform);
+  shirtColor.addEventListener("input", (event) => {
+    previewWindow.style.background = `linear-gradient(180deg, ${event.target.value}, #fffaf2)`;
+  });
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const size = document.querySelector("#shirtSize").value;
+    const quantity = document.querySelector("#quantity").value;
+    const email = document.querySelector("#email").value.trim();
+    const telegram = document.querySelector("#telegram").value.trim();
+    const notes = document.querySelector("#notes").value.trim();
+    const subject = encodeURIComponent("Freya's Family Creations idea");
+    const body = encodeURIComponent(
+      [
+        "Freya's Family Creations idea",
+        "",
+        `Size: ${size}`,
+        `Quantity: ${quantity}`,
+        `Email: ${email || "Not provided"}`,
+        `Telegram: ${telegram || "Not provided"}`,
+        `Artwork or sample: ${state.fileName}`,
+        state.imageWidth ? `Artwork size: ${state.imageWidth} x ${state.imageHeight}px` : "",
+        `Preview scale: ${scaleRange.value}%`,
+        `Preview rotation: ${rotateRange.value} degrees`,
+        "",
+        "Notes:",
+        notes || "None",
+        "",
+        "Please attach the original artwork file when sending this email.",
+      ]
+        .filter(Boolean)
+        .join("\n"),
+    );
+    window.location.href = `mailto:hello@zeror.ca?subject=${subject}&body=${body}`;
+  });
+
+  renderSamplePicker();
+  updatePreviewTransform();
 }
-
-upload.addEventListener("change", (event) => {
-  const file = event.target.files?.[0];
-  if (!file) return;
-
-  document.querySelectorAll(".design-card").forEach((card) => card.classList.remove("active"));
-  const src = URL.createObjectURL(file);
-  setArtworkImage(src, file.name, file);
-});
-
-printArt.addEventListener("pointerdown", (event) => {
-  state.dragging = true;
-  state.startX = event.clientX;
-  state.startY = event.clientY;
-  state.originX = state.x;
-  state.originY = state.y;
-  printArt.setPointerCapture(event.pointerId);
-});
-
-printArt.addEventListener("pointermove", (event) => {
-  if (!state.dragging) return;
-  state.x = state.originX + event.clientX - state.startX;
-  state.y = state.originY + event.clientY - state.startY;
-  renderArtTransform();
-});
-
-printArt.addEventListener("pointerup", () => {
-  state.dragging = false;
-});
-
-printArt.addEventListener("pointercancel", () => {
-  state.dragging = false;
-});
-
-scaleRange.addEventListener("input", (event) => {
-  state.scale = Number(event.target.value) / 100;
-  renderArtTransform();
-});
-
-rotateRange.addEventListener("input", (event) => {
-  state.rotate = Number(event.target.value);
-  renderArtTransform();
-});
-
-swatches.forEach((swatch) => {
-  swatch.addEventListener("click", () => {
-    swatches.forEach((item) => item.classList.remove("active"));
-    swatch.classList.add("active");
-    shirt.style.setProperty("--shirt-color", swatch.dataset.color);
-  });
-});
-
-document.querySelector("#resetPrint").addEventListener("click", resetPlacement);
-document.querySelector("#centerPrint").addEventListener("click", () => {
-  state.x = 0;
-  state.y = 0;
-  renderArtTransform();
-});
-document.querySelector("#fitPrint").addEventListener("click", fitArtwork);
-
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
-
-  const email = document.querySelector("#email").value.trim();
-  const telegram = document.querySelector("#telegram").value.trim();
-  const size = document.querySelector("#shirtSize").value;
-  const quantity = document.querySelector("#quantity").value;
-  const notes = document.querySelector("#notes").value.trim();
-
-  const subject = encodeURIComponent("Custom T-shirt request");
-  const body = encodeURIComponent(
-    [
-      "Custom T-shirt request",
-      "",
-      `Size: ${size}`,
-      `Quantity: ${quantity}`,
-      `Customer email: ${email || "Not provided"}`,
-      `Telegram: ${telegram || "Not provided"}`,
-      `Artwork file: ${state.fileName || "Not uploaded in preview"}`,
-      state.imageWidth ? `Artwork size: ${state.imageWidth} x ${state.imageHeight}px` : "",
-      `Print scale: ${Math.round(state.scale * 100)}%`,
-      `Rotation: ${state.rotate} degrees`,
-      "",
-      "Notes:",
-      notes || "None",
-      "",
-      "Please attach the original artwork file when sending this email.",
-    ]
-      .filter(Boolean)
-      .join("\n"),
-  );
-
-  window.location.href = `mailto:hello@t-shirt.example?subject=${subject}&body=${body}`;
-});
-
-renderDesignGrid();
-renderArtTransform();
