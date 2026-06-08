@@ -170,6 +170,14 @@ p {
   line-height: 1.42;
 }
 
+.hero-note {
+  max-width: 620px;
+  margin: 16px 0 0;
+  padding-left: 14px;
+  border-left: 3px dotted var(--pink);
+  font-size: 15px;
+}
+
 .home-hero {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
@@ -467,6 +475,11 @@ footer a {
   color: var(--muted);
   font-size: 13px;
   font-weight: 900;
+}
+
+.helper-line {
+  margin-top: -4px;
+  font-size: 14px;
 }
 
 .idea-template-grid {
