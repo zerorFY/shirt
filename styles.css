@@ -161,6 +161,15 @@ p {
   font-size: 20px;
 }
 
+.hero-direct {
+  max-width: 650px;
+  margin: 20px 0 0;
+  color: var(--text);
+  font-size: clamp(18px, 2.1vw, 24px);
+  font-weight: 900;
+  line-height: 1.42;
+}
+
 .home-hero {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
@@ -419,6 +428,15 @@ footer a {
   display: grid;
   gap: 16px;
   padding: 16px;
+}
+
+.template-image {
+  width: 100%;
+  aspect-ratio: 1.35 / 1;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--bg);
 }
 
 .sample-placeholder {
@@ -734,6 +752,13 @@ footer p {
     gap: 14px;
     align-items: center;
     padding: 12px;
+  }
+
+  .template-image {
+    width: 94px;
+    height: 88px;
+    aspect-ratio: auto;
+    border-radius: 16px;
   }
 
   .sample-placeholder {
